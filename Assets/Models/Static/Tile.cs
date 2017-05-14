@@ -64,13 +64,13 @@ public class Tile {
     }
 
     // Register a call back for the tile type changing
-    public void RegisterTileTypeChanged(Action<Tile> callback)
+    public void RegisterTileTypeChangedCallBack(Action<Tile> callback)
     {
         cbTileTypeChanged += callback;
     }
 
     // Unregister a call back for the tile type changing
-    public void UnRegisterTileTypeChanged(Action<Tile> callback)
+    public void UnRegisterTileTypeChangedCallBack(Action<Tile> callback)
     {
         cbTileTypeChanged -= callback;
     }
