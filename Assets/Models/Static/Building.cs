@@ -34,7 +34,7 @@ public class Building {
     Action<Building> cbOnChanged;
 
     // Check if this building is in a valid position
-    Func<Tile, bool> funcPositionValidation;
+    public Func<Tile, bool> funcPositionValidation;
 
 
     // Restrict instantiation from outside the Building class, now Buildings can only be created from Building.PlaceInstance

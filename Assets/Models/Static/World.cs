@@ -127,8 +127,14 @@ public class World {
         cbBuildingCreated += callbackfunc;
     }
 
-    public void UnregisterFurnitureCreated(Action<Building> callbackfunc)
+    public void UnregisterBuildingCreated(Action<Building> callbackfunc)
     {
         cbBuildingCreated -= callbackfunc;
+    }
+
+    public bool IsBuildingPlacementValid (string buildingType, Tile t)
+    {
+        return buildingPrototypes[buildingType].funcPositionValidation(t);
+
     }
 }

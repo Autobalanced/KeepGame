@@ -118,13 +118,22 @@ public class MouseController : MonoBehaviour {
                             // Create the Building and assign it to the tile
                             // FIXME: Right now, we're just going to assume walls.
                             // WorldController.Instance.World.PlaceBuilding(buildModeObjectType, t);
-                            string buildingType = buildModeObjectType;
-                            Job j = new Job(t, (theJob) =>
-                            {
-                                OnBuildingJobComplete(buildingType, theJob.tile);
-                            });
 
-                            WorldController.Instance.World.jobQueue.Enqueue( j );
+                            string buildingType = buildModeObjectType;
+
+                            // Check if position is valid first
+                            if (WorldController.Instance.World.IsBuildingPlacementValid(buildingType, t))
+                            {
+                                // Tile is valid for this building type
+                                Job j = new Job(t, (theJob) =>
+                                {
+                                    OnBuildingJobComplete(buildingType, theJob.tile);
+                                });
+
+                                // Add to job queue
+                                WorldController.Instance.World.jobQueue.Enqueue(j);
+                                Debug.Log("Job queue Size: " + WorldController.Instance.World.jobQueue.Count);
+                            }
                         }
                         else
                         {
