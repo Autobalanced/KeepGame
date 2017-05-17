@@ -60,7 +60,7 @@ public class WorldController : MonoBehaviour {
                 tile_go.transform.position = new Vector3(tile_data.X, tile_data.Y, 0);
                 tile_go.transform.SetParent(this.transform, true);
 
-                // Add a Sprite Renderer to the tile
+                // Add a Sprite Renderer to the tile (Default to empty tile sprite)
                 tile_go.AddComponent<SpriteRenderer>().sprite = emptySprite;
 
                 // Register a callback so whenver the tile is updated the GameObject reflects changes
@@ -72,17 +72,29 @@ public class WorldController : MonoBehaviour {
         Camera.main.transform.position =  new Vector3(World.Width / 2, World.Height / 2, Camera.main.transform.position.z);
 	}
 
+    // Preload all sprites for buildings
     void LoadSprites()
     {
         buildingSprites = new Dictionary<string, Sprite>();
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Buildings/");
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Images/Buildings/BuildingSpriteSheet");
 
-        Debug.Log("LOADED RESOURCE:");
-        foreach (Sprite s in sprites)
+        // Check if Sprites are in folder
+        if (sprites.Length != 0 || sprites != null)
         {
-            Debug.Log(s);
-            buildingSprites[s.name] = s;
+            // Log out each sprite loaded
+            foreach (Sprite s in sprites)
+            {
+                Debug.Log("LOADED RESOURCE:");
+                Debug.Log(s);
+                buildingSprites[s.name] = s;
+                
+            }
         }
+        else
+        {
+            Debug.Log("No building sprites found!");
+        }
+        
     }
 
     // Update is called once per frame
@@ -113,7 +125,7 @@ public class WorldController : MonoBehaviour {
         }
         else if (tile_data.Type == TileType.Empty)
         {
-            tile_go.GetComponent<SpriteRenderer>().sprite = null;
+            tile_go.GetComponent<SpriteRenderer>().sprite = emptySprite;
         }
         else
         {
@@ -167,7 +179,7 @@ public class WorldController : MonoBehaviour {
 
     Sprite GetSpriteForBuilding(Building obj)
     {
-        // To be expanded if Sprite change if their have Neighbours
+        // To be expanded if Sprite changes if they have Neighbours
         return buildingSprites[obj.objectType];
     }
 

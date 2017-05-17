@@ -19,12 +19,18 @@ public class World {
 
     // Callback for when a building is placed;
     Action<Building> cbBuildingCreated;
+    Action<Tile> cbTileChanged;
+
+    // Queue of all available jobs (Replace with dedicated class for managing job queues of differing types)
+    public Queue<Job> jobQueue;
 
     // Initialise the World (Currently set to 100x100 tiles
     public World (int width = 100, int height = 100)
     {
         Width = width;
         Height = height;
+
+        jobQueue = new Queue<Job>();
 
         // Set the tile array to be as large as the game world size
         tiles = new Tile[Width, Height];
@@ -50,13 +56,13 @@ public class World {
     {
         buildingPrototypes = new Dictionary<string, Building>();
 
-        buildingPrototypes.Add("Building",
+        buildingPrototypes.Add("BuildingPlaceholder_0",
             Building.CreatePrototype(
-                "Building",
+                "BuildingPlaceholder_0",
                 0, // Impassable to movement
                 1, // Width of the building
                 1, // Height of the building
-                true // Links to neighbour objects
+                false // Links to neighbour objects
                 )
          );
     }
